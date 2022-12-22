@@ -11,7 +11,7 @@ class Auth {
       res.status(400).json({ message: "Usuario & contraseña son requeridas!" });
     }
     const result = await pool.query(
-      `SELECT  u.id as id,u.user ,u.pass , r.rol as rol from usuario as u,rol as r where r.id = u.id_rol and user = ? `,
+      `SELECT  u.id as id,u.user ,u.pass,u.nombre , r.rol as rol from usuario as u,rol as r where r.id = u.id_rol and user = ? `,
       [usuario]
     );
     if (result.length === 0) {
@@ -28,6 +28,7 @@ class Auth {
           message: "OK",
           token,
           usuario:result[0].user,
+          userName:result[0].nombre,
           userId: result[0].id,
           role: result[0].rol,
         });

@@ -6,7 +6,7 @@ import pool from "../database";
 class User {
   public async list(req: Request, res: Response): Promise<void> {
     const result = await pool.query(
-      `select u.id,u.user,u.pass,r.rol, u.estado from usuario as u, rol as r WHERE u.id_rol = r.id ORDER BY u.id ASC`
+      `select u.id,u.user,u.pass,r.rol, u.estado,u.nombre from usuario as u, rol as r WHERE u.id_rol = r.id ORDER BY u.id ASC`
     );
     res.json(result);
   }
@@ -14,7 +14,7 @@ class User {
   public async getOne(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
     const result = await pool.query(
-      `select u.id,u.user,r.rol,u.estado 
+      `select u.id,u.user,r.rol,u.estado, u.nombre
       from usuario as u, rol as r WHERE u.id_rol = r.id && u.id = ? `,
       [id]
     );

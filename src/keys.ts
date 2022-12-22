@@ -2,9 +2,9 @@ export default {
 
     database: {
         host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'mancomunidad',
+        user: 'transito_transito',
+        password: 'uKX8idb$SOG(',
+        database: 'transito_prueba',
     }
 
 }

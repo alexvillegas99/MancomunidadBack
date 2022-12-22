@@ -1,4 +1,5 @@
 import {Router} from 'express'
+import actas from './actas';
 import auth from './auth';
 import placa from './placa';
 import roles from './roles';
@@ -16,6 +17,7 @@ routes.use('/rol',roles);
 routes.use('/placa',placa);
 routes.use('/tipo_placa',tipo_placa);
 routes.use('/tipo_vehiculo',tipo_vehiculo);
+routes.use('/actas',actas);
 //Exportando rutas
 
 export default routes;

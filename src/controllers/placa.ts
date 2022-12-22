@@ -5,7 +5,7 @@ import pool from "../database";
 class Placas {
   public async list(req: Request, res: Response): Promise<void> {
     const result =
-      await pool.query(`SELECT p.id,p.placa,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
+      await pool.query(`SELECT p.id,p.placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
       where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id  ORDER BY p.id DESC`);
     res.json(result);
   }
@@ -13,7 +13,7 @@ class Placas {
   public async getOne(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
     const result = await pool.query(
-      `SELECT p.id,p.placa,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u,
+      `SELECT p.id,p.placa,tp.tipo as tipo_placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u,
       where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and p.id_usuario_modifico=u.id and p.id=? ORDER BY p.id DESC`,
       [id]
     );
@@ -25,6 +25,8 @@ class Placas {
 
   public async create(req: Request, res: Response): Promise<void> {
     try {
+      const date = new Date();
+      req.body.fecha_ingreso=date;
       const result = await pool.query("INSERT INTO placa set ?", [req.body]);
       res.json({ message: "Ok" });
     } catch (error) {
@@ -35,6 +37,8 @@ class Placas {
   public async update(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
+      const date = new Date();
+      req.body.fecha_modificacion=date;
       await pool.query("UPDATE placa set ? WHERE id = ?", [req.body, id]);
       res.json({ message: "Ok" });
     } catch (error) {
@@ -47,6 +51,17 @@ class Placas {
     try {
       await pool.query("DELETE FROM placa WHERE id = ?", [id]);
       res.json({ message: "Ok" });
+    } catch (error) {
+      res.status(404).json({ message: "Error" });
+    }
+  }
+  public async buscarPlaca(req: Request, res: Response): Promise<void> {
+    const { busqueda } = req.body;
+    try {
+      const result =
+        await pool.query(`SELECT p.id,p.placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
+        where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id  and concat(p.placa,p.propietario,p.cedula) LIKE '%${busqueda}%'ORDER BY p.id  ASC`);
+      res.json(result);
     } catch (error) {
       res.status(404).json({ message: "Error" });
     }
