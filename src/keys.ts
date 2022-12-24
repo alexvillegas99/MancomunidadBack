@@ -1,13 +1,27 @@
+import {
+    DB_HOST,
+    DB_NAME,
+    DB_PASSWORD,
+    DB_USER,
+    DB_PORT
+  } from './config'
+  
 export default {
 
     database: {
-        host: 'containers-us-west-188.railway.app',
-        user: 'root',
-        password: 'CpsULLz1SBzaxeDvei7T',
-        database: 'railway',
-        port:7263
-    }
+        host: DB_HOST,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
+        port:Number(DB_PORT)
+    } 
 
+  /*   database: {
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'mancomunidad',
+    }  */
     /* Producción
     database: {
         host: 'localhost',

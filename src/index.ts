@@ -2,7 +2,8 @@ import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import routes from './routes';
-
+require('dotenv').config()
+const mysql = require('mysql2')
 class Server {
 
     public app: Application;
