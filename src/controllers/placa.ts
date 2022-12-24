@@ -66,6 +66,15 @@ class Placas {
       res.status(404).json({ message: "Error" });
     }
   }
+  public async buscarPlacaConsulta(req: Request, res: Response): Promise<void>{
+    try {
+      const result =
+        await pool.query(`SELECT p.estado from placa as p where p.placa =?`,[req.body.placa]);
+      res.json(result); 
+    } catch (error) {
+      res.status(404).json({ message: "Error" });
+    }
+  }
 }
 
 const lecturas = new Placas();
