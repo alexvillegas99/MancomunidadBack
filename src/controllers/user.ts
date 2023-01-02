@@ -24,8 +24,10 @@ class User {
     res.status(404).json({ text: "El registro no existe" });
   }
   public async create(req: Request, res: Response): Promise<void> { 
+    console.log(req.body)
     const salt = bcryptjs.genSaltSync(10);
     req.body.pass = bcryptjs.hashSync(req.body.pass, salt);
+   
     const result = await pool.query(
       `SELECT * FROM usuario where user=?`,
       req.body.user

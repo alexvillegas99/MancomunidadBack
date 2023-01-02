@@ -18,9 +18,9 @@ class User {
         this.router.post('/',[checkJwt,checkRole(['admin'])], placa.create);
         this.router.put('/:id',[checkJwt,checkRole(['admin'])], placa.update);
         this.router.delete('/:id',[checkJwt,checkRole(['admin'])], placa.delete);
-        this.router.post('/buscarPlaca', placa.buscarPlaca);
+        this.router.post('/buscarPlaca',[checkJwt], placa.buscarPlaca);
         this.router.post('/buscarPlacaConsulta', placa.buscarPlacaConsulta);
-    }
+    } 
 
 }
 

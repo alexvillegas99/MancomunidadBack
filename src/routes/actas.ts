@@ -13,12 +13,14 @@ class Actas {
     }
 
     config() {
-        this.router.get('/', actas.list);
+        this.router.get('/',[checkJwt], actas.list);
+        this.router.get('/reporteActas',[checkJwt], actas.listReporte);
         this.router.get('/:id',[checkJwt], actas.getOne);
         this.router.post('/',[checkJwt,checkRole(['admin'])], actas.create);
         this.router.put('/:id',[checkJwt,checkRole(['admin'])], actas.update);
         this.router.delete('/:id',[checkJwt,checkRole(['admin'])], actas.delete);
         this.router.post('/buscarActa',[checkJwt], actas.buscarActa);
+        
     }
 
 }

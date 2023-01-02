@@ -13,8 +13,8 @@ class Placas {
   public async getOne(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
     const result = await pool.query(
-      `SELECT p.id,p.placa,tp.tipo as tipo_placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u,
-      where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and p.id_usuario_modifico=u.id and p.id=? ORDER BY p.id DESC`,
+      `SELECT p.id,p.placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
+      where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id and p.placa=?`,
       [id]
     );
     if (result.length > 0) {
