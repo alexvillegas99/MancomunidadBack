@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import routes from './routes';
+import routes from './src/routes';
 require('dotenv').config()
 const mysql = require('mysql2')
 class Server {
@@ -15,7 +15,7 @@ class Server {
     }
 
     config(): void {
-        this.app.set('port', process.env.PORT || 80);
+        this.app.set('port', process.env.PORT || 3000);
 
         this.app.use(morgan('dev'));
         this.app.use(cors());

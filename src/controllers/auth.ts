@@ -12,12 +12,16 @@ class Auth {
       res.status(400).json({ message: "Usuario & contraseña son requeridas!" });
     }
     const result = await pool.query(
-      `SELECT  u.id as id,u.user ,u.pass,u.nombre , r.rol as rol from usuario as u,rol as r where r.id = u.id_rol and user = ? `,
+      `SELECT  u.id as id,u.user ,u.pass,u.nombre,u.estado , r.rol as rol from usuario as u,rol as r where r.id = u.id_rol and user = ? `,
       [usuario]
     );
     if (result.length === 0) {
       res.status(400).json({ message: "Usuario o contraseña incorrecto!" });
     } else {
+      
+      if(!result[0].estado){
+        res.status(400).json({ message: "El usuario no tiene permisos para ingresar" });
+      }
       if (!bcryptjs.compareSync(clave, result[0].pass)) {
         res.status(400).json({ message: "Usuario o contraseña incorrecto!" });
       } else {

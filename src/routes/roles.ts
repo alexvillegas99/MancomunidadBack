@@ -16,9 +16,9 @@ class RolesRoutes {
     config() {
         this.router.get('/',[checkJwt], roles.list);
         this.router.get('/:id',[checkJwt], roles.getOne);
-        this.router.post('/',[checkJwt,checkRole(['admin'])], roles.create);
-        this.router.put('/:id',[checkJwt,checkRole(['admin'])], roles.update);
-        this.router.delete('/:id',[checkJwt,checkRole(['admin'])], roles.delete);
+        this.router.post('/',[checkJwt,checkRole(['admin','emisor'])], roles.create);
+        this.router.put('/:id',[checkJwt,checkRole(['admin','emisor'])], roles.update);
+        this.router.delete('/:id',[checkJwt,checkRole(['admin','emisor'])], roles.delete);
     }
 
 }

@@ -5,7 +5,7 @@ import pool from "../database";
 class Actas {
   public async list(req: Request, res: Response): Promise<void> {
     const result = await pool.query(
-      `SELECT ae.id,ae.numero_placa as id_placa, ae.numero_acta,ae.cantidad,ae.detalle,p.placa as numero_placa,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user FROM actas_entrega as ae , usuario as u, placa as p WHERE u.id=ae.usuario and p.id=ae.numero_placa ORDER BY ae.id DESC
+      `SELECT ae.id,ae.numero_placa as id_placa, ae.numero_acta,ae.cantidad,ae.detalle,ae.observacion,p.placa as numero_placa,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user FROM actas_entrega as ae , usuario as u, placa as p WHERE u.id=ae.usuario and p.id=ae.numero_placa ORDER BY ae.id DESC
       `
     );
     res.json(result);
@@ -14,7 +14,7 @@ class Actas {
   public async getOne(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
     const result = await pool.query(
-      `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,p.placa as numero_placa,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user FROM actas_entrega as ae , usuario as u, placa as p WHERE u.id=ae.usuario and p.id=ae.numero_placa id=? ORDER BY p.id DESC`,
+      `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,p.placa as numero_placa,ae.observacion,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user FROM actas_entrega as ae , usuario as u, placa as p WHERE u.id=ae.usuario and p.id=ae.numero_placa id=? ORDER BY p.id DESC`,
       [id]
     );
     if (result.length > 0) {
@@ -74,7 +74,7 @@ class Actas {
     const { busqueda } = req.body;
     try {
       const result = await pool.query(
-        `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,ae.numero_acta,ae.numero_placa,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user  FROM actas_entrega as ae , usuario as u WHERE u.id=ae.usuario and concat(ae.numero_acta,ae.detalle,ae.numero_placa,ae.nombre,ae.cedula) LIKE '%${busqueda}%'ORDER BY ae.id  DESC`
+        `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,ae.numero_acta,ae.numero_placa,ae.observacion,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user  FROM actas_entrega as ae , usuario as u WHERE u.id=ae.usuario and concat(ae.numero_acta,ae.detalle,ae.numero_placa,ae.nombre,ae.cedula) LIKE '%${busqueda}%'ORDER BY ae.id  DESC`
       );
       res.json(result);
     } catch (error) {
@@ -83,7 +83,7 @@ class Actas {
   }
   public async listReporte(req: Request, res: Response): Promise<void> {
     const result = await pool.query(
-      `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,p.placa as numero_placa,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,ae.usuario,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo,p.fecha_modificacion FROM actas_entrega as ae, placa as p, tipo_vehiculo as tv, tipo_placa as tp where ae.numero_placa=p.id and p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  ORDER BY ae.id DESC`
+      `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,p.placa as numero_placa,ae.observacion,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,ae.usuario,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo,p.fecha_modificacion FROM actas_entrega as ae, placa as p, tipo_vehiculo as tv, tipo_placa as tp where ae.numero_placa=p.id and p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  ORDER BY ae.id DESC`
     );
     res.json(result);
   }

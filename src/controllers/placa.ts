@@ -5,7 +5,7 @@ import pool from "../database";
 class Placas {
   public async list(req: Request, res: Response): Promise<void> {
     const result =
-      await pool.query(`SELECT p.id,p.placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
+      await pool.query(`SELECT p.id,p.placa,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
       where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id  ORDER BY p.id DESC`);
     res.json(result);
   }
@@ -13,7 +13,7 @@ class Placas {
   public async getOne(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
     const result = await pool.query(
-      `SELECT p.id,p.placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
+      `SELECT p.id,p.placa,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
       where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id and p.placa=?`,
       [id]
     );
@@ -59,18 +59,20 @@ class Placas {
     const { busqueda } = req.body;
     try {
       const result =
-        await pool.query(`SELECT p.id,p.placa,p.propietario,p.cedula,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
-        where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id  and concat(p.placa,p.propietario,p.cedula) LIKE '%${busqueda}%'ORDER BY p.id  ASC`);
-      res.json(result);
+        await pool.query(`SELECT p.id,p.placa,p.fecha_ingreso,p.fecha_modificacion,tp.tipo as tipo_placa, tv.tipo as tipo_vehiculo, p.estado, u.user as usuario from placa as p, tipo_placa as tp, tipo_vehiculo as tv, usuario as u
+        where p.id_tipo_placa=tp.id and p.id_tipo_vehiculo=tv.id  and  p.id_usuario_modifico=u.id  and concat(p.placa) LIKE '%${busqueda}%'ORDER BY p.id  ASC`);
+      res.json(result); 
     } catch (error) {
       res.status(404).json({ message: "Error" });
     }
   }
   public async buscarPlacaConsulta(req: Request, res: Response): Promise<void>{
+    console.log(req.body.placa);
     try {
       const result =
         await pool.query(`SELECT p.estado from placa as p where p.placa =?`,[req.body.placa]);
-      res.json(result); 
+        console.log(result)
+      res.json(result);   
     } catch (error) {
       res.status(404).json({ message: "Error" });
     }

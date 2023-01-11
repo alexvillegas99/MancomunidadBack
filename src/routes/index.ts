@@ -11,7 +11,7 @@ import user from './user';
 //Declarando la constante de rutas
 const routes=Router();
 //Inicializando las rutas
-routes.use('auth',auth);
+routes.use('/auth',auth);
 routes.use('/usuario',user);
 routes.use('/rol',roles);
 routes.use('/placa',placa);
