@@ -74,7 +74,7 @@ class Actas {
     const { busqueda } = req.body;
     try {
       const result = await pool.query(
-        `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,ae.numero_acta,ae.numero_placa,ae.observacion,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user  FROM actas_entrega as ae , usuario as u WHERE u.id=ae.usuario and concat(ae.numero_acta,ae.detalle,ae.numero_placa,ae.nombre,ae.cedula) LIKE '%${busqueda}%'ORDER BY ae.id  DESC`
+        `SELECT ae.id, ae.numero_acta,ae.cantidad,ae.detalle,ae.numero_acta,p.placa as numero_placa,ae.observacion,ae.nombre,ae.cedula,ae.dia,ae.mes,ae.anio,u.nombre as user  FROM actas_entrega as ae , usuario as u, placa as p WHERE ae.numero_placa=p.id and u.id=ae.usuario and concat(ae.numero_acta,ae.detalle,ae.numero_placa,ae.nombre,ae.cedula,p.placa) LIKE '%${busqueda}%'ORDER BY ae.id  DESC`
       );
       res.json(result);
     } catch (error) {

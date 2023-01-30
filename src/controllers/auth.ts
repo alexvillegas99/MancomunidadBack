@@ -7,7 +7,6 @@ import pool from "../database";
 class Auth {
   public async login(req: Request, res: Response): Promise<void> {
     let { usuario, clave } = req.body;
-    console.log(req.body);
     if (!(usuario && clave)) {
       res.status(400).json({ message: "Usuario & contraseña son requeridas!" });
     }

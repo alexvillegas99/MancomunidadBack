@@ -12,7 +12,7 @@ export default {
     database: {
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'Incomsis123@',
         database: 'mancomunidad',
     } 
   

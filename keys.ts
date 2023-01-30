@@ -9,8 +9,8 @@ export default {
     }   */
     database: {
       host: 'localhost',
-      user: 'root',
-      password: '',
+      user: 'incomsis',
+      password: 'Incomsis123@',
       database: 'mancomunidad',
   }  
 
