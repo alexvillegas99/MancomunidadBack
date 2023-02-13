@@ -1,17 +1,17 @@
 
 export default {
 
-   /* database: {
+   database: {
         host: 'localhost',
-        user: 'transito',
-        password: 'transito123',
+        user: 'root',
+        password: '',
         database: 'mancomunidad',
-    }   */
-    database: {
+    }   
+   /*  database: {
       host: 'localhost',
       user: 'incomsis',
       password: 'Incomsis123@',
       database: 'mancomunidad',
-  }  
+  }   */
 
 }
